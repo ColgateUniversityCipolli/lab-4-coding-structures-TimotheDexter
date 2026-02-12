@@ -125,6 +125,7 @@ Ask for the fifth row of the data frame.
 
 **Solution**
 ```{r}
+df[5, ]
 ```
 
 ## Part e
@@ -132,6 +133,10 @@ Ask for the the value of `x1` in the fifth row of the data frame.
 
 **Solution**
 ```{r}
+df[5, "x1"]
+# or:
+# df$x1[5]
+
 ```
 
 ## Part f
@@ -139,6 +144,8 @@ Ask for the the value of in the third column and the fifth row of the data frame
 
 **Solution**
 ```{r}
+df[5, 3]
+
 ```
 
 ## Part g
