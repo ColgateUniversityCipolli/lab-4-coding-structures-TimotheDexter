@@ -180,12 +180,14 @@ df$x12
 ```
 
 ## Part i
-Write a function called `calculate.score(...)` that takes three arguments representing `x1`, `x2`, and `x3`) and returns a single value based on the formula:
+Write a function called `calculate.score(...)` that takes three arguments representing `x1`, `x2`, and `x3` and returns a single value based on the formula:
 $$Score = (x_1 \times 2) + x_2 - x_3$$
 Use your function to create a new column `total.score` in our data frame `df`.
 
 **Solution**
 ```{r}
+
+
 ```
 
 ## Part j
