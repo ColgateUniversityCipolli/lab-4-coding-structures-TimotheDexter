@@ -199,6 +199,23 @@ Create a function called `evaluate.row(...)` that takes one argument and returns
 
 **Solution**
 ```{r}
+evaluate.row = function(value){
+  if(value < 4){
+    "low"
+  } else if(value <= 7){
+    "mid"
+  } else {
+    "high"
+  }
+}
+
+sapply(df$x1, evaluate.row)
+#just prints it 
+#below will store it
+#may or may not have gone down sapply rabbit hole
+(df$x1.category = sapply(df$x1, evaluate.row))
+
+
 ```
 
 ## Part k
