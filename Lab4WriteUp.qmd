@@ -247,8 +247,9 @@ Install and load the `rvest` package [@rvest].
 
 **Solution**
 ```{r}
-
-
+# run this in console OLY
+# install.packages("rvest")
+library(rvest)
 
 
 ```
