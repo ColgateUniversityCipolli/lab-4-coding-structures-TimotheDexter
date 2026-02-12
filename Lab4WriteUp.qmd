@@ -261,6 +261,10 @@ Load the html of the `website/KimchiGrilledCheese.html` using the `read_html()` 
 
 **Solution**
 ```{r}
+library(rvest)
+
+recipe.item = read_html("website/KimchiGrilledCheese.html")
+
 ```
 
 ## Part c
@@ -272,6 +276,7 @@ Find the name of the Ingredients section of the website and pull the HTML of the
 
 **Solution**
 ```{r}
+
 ```
 
 ## Part d
