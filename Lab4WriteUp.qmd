@@ -223,7 +223,21 @@ Did we need to use loops or functions in (h.)-(j.)? That is, can we use vectoriz
 
 **Solution**
 ```{r}
+# Vectorized version of Part h (no loop needed):
+(df$x12 = df$x1 * df$x2)
+
+# Vectorized version of Part i (no function needed):
+(df$total.score = (df$x1 * 2) + df$x2 - df$x3)
+
+# For Part j, we *can* partially vectorize using ifelse:
+(df$x1.category = ifelse(df$x1 < 4, "low",
+                         ifelse(df$x1 <= 7, "mid", "high")))
+
+
+
 ```
+Explanation
+Parts h and i dont need loops or functions because math on vectors in R is vectorized. Algthough, for j, I wrote a function that used if/else, you could still do it in one vectorized line with a nested ifelse, so loops are not needed
 
 # Complete Tasks for One Recipe
 
