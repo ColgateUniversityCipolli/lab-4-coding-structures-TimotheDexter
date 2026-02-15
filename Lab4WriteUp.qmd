@@ -276,6 +276,9 @@ Find the name of the Ingredients section of the website and pull the HTML of the
 
 **Solution**
 ```{r}
+ingredients.section = recipe.item |>
+  html_element("#ingredients")
+
 
 ```
 
@@ -285,6 +288,9 @@ Now, we want to obtain all of the itemized items. Find the element type the indi
 
 **Solution**
 ```{r}
+ingredients <- ingredients.section |>
+  html_elements("li")
+
 ```
 
 ## Part e
