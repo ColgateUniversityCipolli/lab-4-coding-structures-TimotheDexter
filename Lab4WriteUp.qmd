@@ -308,6 +308,11 @@ Now, we want to obtain all of the enumerated items. Find the element type the in
 
 **Solution**
 ```{r}
+instructions <- instructions.section |>
+  html_elements("li")
+
+html_text(instructions)
+
 ```
 
 ## Part g
