@@ -321,6 +321,9 @@ Find the class of the recipe image and pull the HTML using `html_element(...)` a
 
 **Solution**
 ```{r}
+image.element <- recipe.item |>
+  html_element(".figure-img")
+
 ```
 
 ## Part h
@@ -329,6 +332,9 @@ Use the `html_attr(...)` function to pull the source link ("src"). Then, use `pa
 
 **Solution**
 ```{r}
+image.src <- html_attr(image.element, "src")
+image.url <- paste0("website/", image.src)
+
 ```
 
 ## Part i
@@ -343,6 +349,14 @@ recipe.title <- recipe.item |> html_element("h1") |> html_text()
 cat(paste('![', recipe.title, '](', image.url, "){width=50%}", sep="")) 
 ```
 
+**Solution**
+```{r}
+#| echo: false
+#| results: 'asis'
+# width="50%" shrinks the image for printing
+recipe.title <- recipe.item |> html_element("h1") |> html_text()
+cat(paste('![', recipe.title, '](', image.url, "){width=50%}", sep="")) 
+```
 **Ingredients**
 
 ```{r}
@@ -351,12 +365,28 @@ formatted_list <- paste("-", html_text(ingredients))
 cat(formatted_list, sep = "\n")
 ```
 
+**Solution**
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("-", html_text(ingredients))
+cat(formatted_list, sep = "\\n")
+```
+
 **Instructions**
 
 ```{r}
 #| eval: false
 formatted_list <- paste("1.", html_text(instructions))
 cat(formatted_list, sep = "\n")
+```
+
+**Solution**
+```{r}
+#| echo: false
+#| results: 'asis'
+formatted_list <- paste("1.", html_text(instructions))
+cat(formatted_list, sep = "\\n")
 ```
 
 # Complete a Full Menu!
