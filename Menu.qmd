@@ -21,14 +21,14 @@ format-links: [pdf]
 ```{r}
 #| echo: false
 
-default_chunk_hook  <- knitr::knit_hooks$get("chunk")
+default_chunk_hook  = knitr::knit_hooks$get("chunk")
 
-latex_font_size <- c("Huge", "huge", "LARGE", "Large", 
+latex_font_size = c("Huge", "huge", "LARGE", "Large", 
                      "large", "normalsize", "small", 
                      "footnotesize", "scriptsize", "tiny")
 
 knitr::knit_hooks$set(chunk = function(x, options) {
-  x <- default_chunk_hook(x, options)
+  x = default_chunk_hook(x, options)
   if(options$size %in% latex_font_size) {
     paste0("\n \\", options$size, "\n\n", 
       x, 
@@ -50,7 +50,11 @@ library(tidyverse)
 <!-- Code For Building Menu Here -->
 ```{r}
 #| include: false
-breakfasts <- c("website/BerryMelonSmoothie.html",
+library(tidyverse)
+library(rvest)
+
+# Recipe lists
+breakfasts = c("website/BerryMelonSmoothie.html",
                 "website/BiscuitsAndGravy.html",
                 "website/BreakfastCheesecake.html",
                 "website/BreakfastMuffins.html",
@@ -59,7 +63,8 @@ breakfasts <- c("website/BerryMelonSmoothie.html",
                 "website/OvernightOats.html",
                 "website/PumpkinToast.html",
                 "website/TropicalSmoothie.html")
-dinner <- c("website/AfricanPeanutSoup.html",
+
+dinner = c("website/AfricanPeanutSoup.html",
             "website/Alfredo.html",
             "website/ArugulaPasta.html",
             "website/AutumnGrainBowl.html",
@@ -82,22 +87,130 @@ dinner <- c("website/AfricanPeanutSoup.html",
             "website/RedWineRagu.html",
             "website/SalmonChowder.html",
             "website/Shakshuka.html")
+
+# Random selection
+set.seed(7272)
+dinner_recipes = sample(dinner, 3)
+breakfast_recipe = sample(breakfasts, 1)
+
+# Scrape function
+scrape_recipe = function(file_path) {
+  recipe_html = read_html(file_path)
+  title = recipe_html |> html_element("h1") |> html_text()
+  ingredients = recipe_html |> 
+    html_element("#ingredients") |> 
+    html_elements("li") |> 
+    html_text()
+  instructions = recipe_html |> 
+    html_element("#instructions") |> 
+    html_elements("li") |> 
+    html_text()
+  image_element = recipe_html |> html_element(".figure-img")
+  if(length(image_element) > 0 && !is.na(html_attr(image_element, "src"))) {
+    image_src = html_attr(image_element, "src")
+    image_url = gsub("^images/", "website/images/", image_src)
+  } else {
+    image_url = NA  # No image
+  }
+  
+  list(title = title, 
+       ingredients = ingredients, 
+       instructions = instructions, 
+       image_url = image_url)
+}
+
+# Scrape recipes
+recipes = map(c(dinner_recipes, breakfast_recipe), scrape_recipe)
+
+# Grocery list
+all_ingredients = map(recipes, ~ .x$ingredients) |> unlist()
+grocery_list = sort(unique(all_ingredients))
+
+#bracket fixed hopefully
+recipe1 = recipes[[1]]
+recipe2 = recipes[[2]]
+recipe3 = recipes[[3]]
+breakfast = recipes[[4]]
 ```
 
 # Ingredients
 
-\newpage
+```{r}
+#| echo: false
+#| results: 'asis'
+cat("## Grocery List\n\n")
+formatted_grocery = paste("-", grocery_list)
+cat(formatted_grocery, sep = "\n\n")
+```
+```{r}
+#| echo: false
+#| results: 'asis'
+cat("Recipe 1:", ifelse(is.na(recipe1$image_url), "NO IMAGE", recipe1$image_url), "\n\n")
+cat("Recipe 2:", ifelse(is.na(recipe2$image_url), "NO IMAGE", recipe2$image_url), "\n\n")
+cat("Recipe 3:", ifelse(is.na(recipe3$image_url), "NO IMAGE", recipe3$image_url), "\n\n")
+cat("Breakfast:", ifelse(is.na(breakfast$image_url), "NO IMAGE", breakfast$image_url), "\n")
+```
+
+```{r}
+#| echo: false
+#| results: 'asis'
+cat("Recipe 1:", ifelse(is.na(recipe1$image_url), "NO IMAGE", recipe1$image_url), "\n\n")
+cat("Recipe 2:", ifelse(is.na(recipe2$image_url), "NO IMAGE", recipe2$image_url), "\n\n")
+cat("Recipe 3:", ifelse(is.na(recipe3$image_url), "NO IMAGE", recipe3$image_url), "\n\n")
+cat("Breakfast:", ifelse(is.na(breakfast$image_url), "NO IMAGE", breakfast$image_url), "\n")
+cat("\\newpage\n") #makes new pages, i looked it up
+```
 
 # Recipe One
+```{r}
+#| echo: false
+#| results: 'asis'
+cat("##", recipe1$title, "\n\n")
+cat(paste('![Recipe 1](', recipe1$image_url, "){width=50%}", sep=""), "\n\n")
+cat("### Ingredients\n\n")
+cat(paste("-", recipe1$ingredients), sep = "\n\n")
+cat("\n### Instructions\n\n")
+cat(paste(1:length(recipe1$instructions), ".", recipe1$instructions), sep = "\n")
+cat("\\newpage\n") #yet again it makes new pages, i looked it up
+```
 
-\newpage
 
 # Recipe Two
-
-\newpage
+```{r}
+#| echo: false
+#| results: 'asis'
+cat("##", recipe2$title, "\n\n")
+cat(paste('![Recipe 2](', recipe2$image_url, "){width=50%}", sep=""), "\n\n")
+cat("### Ingredients\n\n")
+cat(paste("-", recipe2$ingredients), sep = "\n\n")
+cat("\n### Instructions\n\n")
+cat(paste(1:length(recipe2$instructions), ".", recipe2$instructions), sep = "\n")
+cat("\\newpage\n") #continues to make a new page
+```
 
 # Recipe Three
 
-\newpage
+```{r}
+#| echo: false
+#| results: 'asis'
+cat("##", recipe3$title, "\n\n")
+cat(paste('![Recipe 3](', recipe3$image_url, "){width=50%}", sep=""), "\n\n")
+cat("### Ingredients\n\n")
+cat(paste("-", recipe3$ingredients), sep = "\n\n")
+cat("\n### Instructions\n\n")
+cat(paste(1:length(recipe3$instructions), ".", recipe3$instructions), sep = "\n")
+cat("\\newpage\n") #continues to make a new page, again
+```
+
 
 # Breakfast Recipe
+```{r}
+#| echo: false
+#| results: 'asis'
+cat("##", breakfast$title, "\n\n")
+cat(paste('![Breakfast](', breakfast$image_url, "){width=50%}", sep=""), "\n\n")
+cat("### Ingredients\n\n")
+cat(paste("-", breakfast$ingredients), sep = "\n\n")
+cat("\n### Instructions\n\n")
+cat(paste(1:length(breakfast$instructions), ".", breakfast$instructions), sep = "\n")
+```
