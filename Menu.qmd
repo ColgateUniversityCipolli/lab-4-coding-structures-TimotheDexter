@@ -149,6 +149,7 @@ cat("Recipe 1:", ifelse(is.na(recipe1$image_url), "NO IMAGE", recipe1$image_url)
 cat("Recipe 2:", ifelse(is.na(recipe2$image_url), "NO IMAGE", recipe2$image_url), "\n\n")
 cat("Recipe 3:", ifelse(is.na(recipe3$image_url), "NO IMAGE", recipe3$image_url), "\n\n")
 cat("Breakfast:", ifelse(is.na(breakfast$image_url), "NO IMAGE", breakfast$image_url), "\n")
+#if this works I will call my mother and tell her I love her... it didnt but i called anyway
 ```
 
 ```{r}
@@ -159,13 +160,14 @@ cat("Recipe 2:", ifelse(is.na(recipe2$image_url), "NO IMAGE", recipe2$image_url)
 cat("Recipe 3:", ifelse(is.na(recipe3$image_url), "NO IMAGE", recipe3$image_url), "\n\n")
 cat("Breakfast:", ifelse(is.na(breakfast$image_url), "NO IMAGE", breakfast$image_url), "\n")
 cat("\\newpage\n") #makes new pages, i looked it up
+#its a wonderful life when I finally got this to work
 ```
 
 # Recipe One
 ```{r}
 #| echo: false
 #| results: 'asis'
-cat("##", recipe1$title, "\n\n")
+cat("##", recipe1$title, "\n\n") #code in the recipe sections are copy and pasted versions of each other like I looked up how these worked and adapted them for them all
 cat(paste('![Recipe 1](', recipe1$image_url, "){width=50%}", sep=""), "\n\n")
 cat("### Ingredients\n\n")
 cat(paste("-", recipe1$ingredients), sep = "\n\n")

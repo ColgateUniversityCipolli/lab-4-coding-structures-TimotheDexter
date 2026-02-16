@@ -402,16 +402,60 @@ When you render this document, no code should be visible. Instead, you should se
 
 # Describe your work!
 
+**Solution**
+This took an incredibly long period of time since it took me a while to stop ending up with nulls for the images so it would automaticly try and render as pdfs so I had to change some of the stuff I am pretty sure that I was not supposed to so there is most likely an easier way of doing it, but it works so victory. After that then I had to fix my brackets which allowed it to get a bit closer then for some reason I had messeed up the printing for the grocery list so it still would not render so ended up doing ingredients in two sections 
+
+
 ## Why a fake website?
 Read [https://www.scrapingbee.com/blog/is-web-scraping-legal/](Is Web Sraping Legal?). Originally, I conceived doing this with recipes from Purple Carrot (my favorite subscription service). Being a large company, their terms of service are *very* long and precluded us from copying their recipes. We also checked a few smaller recipe websites we like and even they had terms of service that restricted automated collection of data.
+
+**Solution**
+I have gone over the article and after hearing what you were saying about not actually running them yourself incase someone gets stuck in a loop
 
 ## Conditionals
 Did you use conditional statements in your code? If yes, how. If not, are there places you could have used them but did something else?
 
+**Solution**
+Yes, I used conditional statements in the scrape_recipe() function to deal with the missing images issues.
+my code looks like below,
+if(length(image_element) > 0 && !is.na(html_attr(image_element, "src"))) checks two things:
+
+Does the .figure-img exist? (length() > 0)
+
+Does it have a src attribute? (!is.na())
+
+If both then extract and fix image path
+
+If either are false then it sets image_url = NA (no image)
+
+I needed it since some recipes might not have images, or like the class selector might not work. Without it, html_attr() would return NA and crash gsub().... which may or may not have happened like 3 times before I figured out how to get it right, but who is counting.
+
+there are technically three times I could have used one and didnt but one of them was not really an option. i should explain that better.
+
+i could have skipped printing images if NA (in recipe chunks), done like different formatting for breakfast vs dinner, and lastly i could have handled empty ingredient lists with one. 
+
+i will code the last one since i dont think you need me to show you all three.
+what is below would probably work (didnt test it)
+if(length(recipe1$ingredients) == 0) {
+  cat("No ingredients listed.\n\n")
+}
+
+
 ## Loops
 Did you use loops in your code? If yes, how. If not, are there places you could have used them but did something else?
 
+**Solution**
+I did not use like an explicit for or while loops, and there were times where I could have but if I am being honest all the talk about like messing them up and creating infinite loops stressed me out so i did my best to avoid them luckily i was able to complete it without any. 
+
+I could have done it in the like grocery list creation or for printing the recipes since I elected to put the recipes in seperate chunks
+
+
 ## Functions
 Did you use functions in your code? If yes, how. If not, are there places you could have used them but did something else?
+
+**Solution**
+Yes, I used a function called scrape_recipe() so i wouldnt have to repeat the same scraping code for every recipe.
+
+I suppose i could have also used a function to do the printing of the recipes and like the grocery list formating but i needed a lot of help to do everything already so i didnt want to rtry and make a whole other function work
 
 
