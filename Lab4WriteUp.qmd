@@ -370,7 +370,7 @@ cat(formatted_list, sep = "\n")
 #| echo: false
 #| results: 'asis'
 formatted_list <- paste("-", html_text(ingredients))
-cat(formatted_list, sep = "\\n")
+cat(formatted_list, sep = "\n")
 ```
 
 **Instructions**
@@ -386,7 +386,7 @@ cat(formatted_list, sep = "\n")
 #| echo: false
 #| results: 'asis'
 formatted_list <- paste("1.", html_text(instructions))
-cat(formatted_list, sep = "\\n")
+cat(formatted_list, sep = "\n")
 ```
 
 # Complete a Full Menu!
@@ -436,10 +436,12 @@ i could have skipped printing images if NA (in recipe chunks), done like differe
 
 i will code the last one since i dont think you need me to show you all three.
 what is below would probably work (didnt test it)
+```{r}
+#| eval: false
 if(length(recipe1$ingredients) == 0) {
   cat("No ingredients listed.\n\n")
 }
-
+```
 
 ## Loops
 Did you use loops in your code? If yes, how. If not, are there places you could have used them but did something else?
